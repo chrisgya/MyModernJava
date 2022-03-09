@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class ParallelismAndConcurrency {
 
-    //Concurrency is when multiple tasks can run in overlapping time periods
+    //Concurrency is when multiple tasks can run in OVERLAPPING TIME PERIODS
     //Parallelism is when multiple tasks run at literally the same time
 
     //Converting from Sequential to Parallel
@@ -26,15 +26,21 @@ public class ParallelismAndConcurrency {
     // Runtime.getRuntime().availableProcessors()
 
 
-
     static Long sequentialSum(int N) {
-        return Stream.iterate(1L, i -> i + 1).limit(N).peek(i -> System.out.println(Thread.currentThread().getName() + " ->" + i)).reduce(0L, Long::sum);
+        return Stream.iterate(1L, i -> i + 1)
+                .limit(N)
+                .peek(i -> System.out.println(Thread.currentThread().getName() + " ->" + i))
+                .reduce(0L, Long::sum);
     }
 
     static Long parallelSum(int N) {
-        //this will will give you the worse performance. instead use the LongStream
+        //this will give you the worse performance. instead, use the LongStream
         System.out.println("Parallel version");
-        return Stream.iterate(1L, i -> i + 1).limit(N).parallel().peek(i -> System.out.println(Thread.currentThread().getName() + " ->" + i)).reduce(0L, Long::sum);
+        return Stream.iterate(1L, i -> i + 1)
+                .limit(N)
+                .parallel()
+                .peek(i -> System.out.println(Thread.currentThread().getName() + " ->" + i))
+                .reduce(0L, Long::sum);
     }
 
     static Long sequentialLongStreamSum(int N) {
@@ -73,8 +79,8 @@ public class ParallelismAndConcurrency {
         }
     }
 
-    //Completing a CompletableFuture
-    //The runAsync methods are useful if you don’t need to return anything.
+    // Completing a CompletableFuture
+    // The runAsync methods are useful if you don’t need to return anything.
     // The supplyAsync methods return an object using the given Supplier
 
     static Map<Integer, Product> cache = new HashMap<>();
@@ -124,7 +130,8 @@ public class ParallelismAndConcurrency {
     }
 
     //The subsequent thenApply and thenAccept methods use the same thread as the supply Async method.
-    //If you use thenApplyAsync, the task will be submitted to the pool, unless you add yet another pool as an additional argument.
+    //If you use thenApplyAsync, the task will be submitted to the pool, unless you add yet another
+    //pool as an additional argument.
     void CoordinatingTasksUsingACompletableFuture() {
         ExecutorService service = Executors.newFixedThreadPool(4);
 
@@ -149,13 +156,13 @@ public class ParallelismAndConcurrency {
         System.out.println(completableFuture.get() == 5);
     }
 
-//If you would rather that the Futures be independent, you can use thenCombine instead
+    //If you would rather that the Futures be independent, you can use thenCombine instead
     static void thenCombineCompletableFuture() throws ExecutionException, InterruptedException {
         int x = 3;
         int y = 2;
 
         var completableFuture = CompletableFuture.supplyAsync(() -> x)
-                .thenCombine(CompletableFuture.supplyAsync(() -> y), (n1, n2)-> n1 + n2).join();
+                .thenCombine(CompletableFuture.supplyAsync(() -> y), (n1, n2) -> n1 + n2).join();
 
         System.out.println(completableFuture == 5);
     }
@@ -168,20 +175,21 @@ public class ParallelismAndConcurrency {
         return CompletableFuture.supplyAsync(() -> Integer.parseInt(num))
                 .handle((val, exc) -> val != null ? val : 0);
     }
-     void handleWithException() throws Exception {
+
+    void handleWithException() throws Exception {
         String num = "abc";
         CompletableFuture<Integer> value = getIntegerCompletableFuture(num);
-         System.out.println(value.get() == 0);
+        System.out.println(value.get() == 0);
     }
-     void handleWithoutException() throws Exception {
+
+    void handleWithoutException() throws Exception {
         String num = "42";
         CompletableFuture<Integer> value = getIntegerCompletableFuture(num);
-         System.out.println(value.get() == 42);
+        System.out.println(value.get() == 42);
     }
 
 
     //Coordinating CompletableFutures, Part 2
-
 
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
@@ -215,7 +223,7 @@ public class ParallelismAndConcurrency {
 
         // callableFutureExample();
 
-       // thenComposeCompletableFuture();
+        // thenComposeCompletableFuture();
         thenCombineCompletableFuture();
     }
 

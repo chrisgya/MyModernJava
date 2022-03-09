@@ -61,7 +61,7 @@ public class DateTime {
         DateTimeFormatter formatter2 = DateTimeFormatter.ISO_LOCAL_TIME;
         LocalTime start2 = LocalTime.of(11, 30, 0, 0);
         LocalTime end2 = start2.plusNanos(1_000_000);
-        end.format(formatter);
+        end2.format(formatter2);
         // start2.plusSeconds(20);  start2.plusMinutes(45); start2.plusHours(5);
 
 
@@ -457,7 +457,6 @@ public class DateTime {
 //        display("Subtracting a month: FEBRUARY" + Month.MARCH.minus(1));
 
         payDayWithMethodRef();
-
     }
 
     private static void display(Object... object) {
